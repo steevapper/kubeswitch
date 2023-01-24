@@ -1,8 +1,12 @@
-# README
+# Wails KubeSwitch
 
 ## About
 
 Wails App for Switching Kubectx
+
+## Prerequisites
+
+- https://wails.io/docs/gettingstarted/installation
 
 ## Live Development
 
