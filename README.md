@@ -1,4 +1,4 @@
-# README
+# Wails KubeSwitch
 
 ## About
 
