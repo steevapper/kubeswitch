@@ -59,6 +59,22 @@ func (a *App) KubeConfig() []string {
 	return kc.ContextNames()
 }
 
+func (a *App) CurrentCtx() string {
+
+	_, err := kubectxPrevCtxFile()
+	if err != nil {
+		panic("failed to determine state file")
+	}
+
+	kc := new(kubeconfig.Kubeconfig).WithLoader(kubeconfig.DefaultLoader)
+	defer kc.Close()
+	if err := kc.Parse(); err != nil {
+		panic("kubeconfig error")
+	}
+
+	return kc.GetCurrentContext()
+}
+
 func (a *App) KubeSwitch(name string) string {
 
 	prevCtxFile, err := kubectxPrevCtxFile()

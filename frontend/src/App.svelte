@@ -1,22 +1,20 @@
 
 <script>
-  import { KubeConfig, KubeSwitch } from "../wailsjs/go/main/App.js";
+  import { KubeConfig, KubeSwitch, CurrentCtx } from "../wailsjs/go/main/App.js";
 
   import { onMount } from "svelte";
 
   let ctxs = []
 
-  let configs;
-
-  onMount(async () => {
-    let configs = await KubeConfig()
-    ctxs = configs.map((c,i) => ({id: i+1, text: c}))
-  });
-
   let selected;
   let namespace; 
+  let current;  
 
-  let answer = "";
+  onMount(async () => {
+    let configs = await KubeConfig();
+    ctxs = configs.map((c,i) => ({id: i+1, text: c}));
+    current = await CurrentCtx();
+  });
 
   async function handleSubmit() {
     console.log(selected)
@@ -41,13 +39,14 @@
   <button disabled={false} type="submit"> Switch </button>
 </form>
 
+<p>current: {current ? current : "[waiting...]"}</p>
 <p>selected: {selected ? selected.text : "[waiting...]"}</p>
 <p>namespace: {namespace ? namespace : "[waiting...]"}</p>
 
 <style>
-  input {
+  /* input {
     display: block;
     width: 500px;
     max-width: 100%;
-  }
+  } */
 </style>

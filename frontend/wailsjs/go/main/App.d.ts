@@ -3,6 +3,8 @@
 
 export function Bye(arg1:string):Promise<string>;
 
+export function CurrentCtx():Promise<string>;
+
 export function Greet(arg1:string):Promise<string>;
 
 export function KubeConfig():Promise<Array<string>>;

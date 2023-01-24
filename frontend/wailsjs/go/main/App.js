@@ -6,6 +6,10 @@ export function Bye(arg1) {
   return window['go']['main']['App']['Bye'](arg1);
 }
 
+export function CurrentCtx() {
+  return window['go']['main']['App']['CurrentCtx']();
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
