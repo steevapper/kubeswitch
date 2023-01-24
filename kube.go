@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"path/filepath"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,16 +20,9 @@ import (
 )
 
 func listNamespace() []string {
-	var kubeconfig *string
-	if home := homedir.HomeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-	} else {
-		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
-	}
-	flag.Parse()
 
 	// use the current context in kubeconfig
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(homedir.HomeDir(), ".kube", "config"))
 	if err != nil {
 		panic(err.Error())
 	}
@@ -43,7 +35,7 @@ func listNamespace() []string {
 
 	nss, err := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		panic(err)
+		return []string{"failed to list namespaces"}
 	}
 
 	rs := []string{}
@@ -51,6 +43,6 @@ func listNamespace() []string {
 	for _, ns := range nss.Items {
 		rs = append(rs, ns.Name)
 	}
-	
+
 	return rs
 }
